@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Validator;
 
 class BukuController extends Controller
 {
-    // Menampilkan semua buku
     public function index()
     {
         try {
@@ -22,12 +21,11 @@ class BukuController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal mengambil data buku: ' . $e->getMessage()
+                'message' => 'Gagal mengambil data buku'
             ], 500);
         }
     }
 
-    // Menampilkan detail buku
     public function show($id)
     {
         try {
@@ -45,7 +43,6 @@ class BukuController extends Controller
         }
     }
 
-    // Menambah buku baru
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -55,7 +52,6 @@ class BukuController extends Controller
             'tahun' => 'required|integer|min:1900|max:' . date('Y'),
             'isbn' => 'required|string|unique:bukus',
             'stok' => 'required|integer|min:0',
-            'deskripsi' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
@@ -76,12 +72,11 @@ class BukuController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal menambahkan buku: ' . $e->getMessage()
+                'message' => 'Gagal menambahkan buku'
             ], 500);
         }
     }
 
-    // Update buku
     public function update(Request $request, $id)
     {
         try {
@@ -94,7 +89,6 @@ class BukuController extends Controller
                 'tahun' => 'sometimes|integer|min:1900|max:' . date('Y'),
                 'isbn' => 'sometimes|string|unique:bukus,isbn,' . $id,
                 'stok' => 'sometimes|integer|min:0',
-                'deskripsi' => 'nullable|string',
             ]);
 
             if ($validator->fails()) {
@@ -114,18 +108,16 @@ class BukuController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal mengupdate buku: ' . $e->getMessage()
+                'message' => 'Gagal mengupdate buku'
             ], 500);
         }
     }
 
-    // Hapus buku
     public function destroy($id)
     {
         try {
             $buku = Buku::findOrFail($id);
             
-            // Cek apakah buku sedang dipinjam
             if ($buku->peminjamans()->where('status', 'dipinjam')->exists()) {
                 return response()->json([
                     'success' => false,
@@ -142,16 +134,15 @@ class BukuController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal menghapus buku: ' . $e->getMessage()
+                'message' => 'Gagal menghapus buku'
             ], 500);
         }
     }
 
-    // Search buku
     public function search(Request $request)
     {
         try {
-            $keyword = $request->get('q');
+            $keyword = $request->input('q');
             
             $buku = Buku::where('judul', 'like', "%{$keyword}%")
                         ->orWhere('penulis', 'like', "%{$keyword}%")
@@ -165,7 +156,7 @@ class BukuController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal mencari buku: ' . $e->getMessage()
+                'message' => 'Gagal mencari buku'
             ], 500);
         }
     }
