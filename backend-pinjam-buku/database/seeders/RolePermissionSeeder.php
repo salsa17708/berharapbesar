@@ -59,7 +59,6 @@ class RolePermissionSeeder extends Seeder
             'name' => 'Administrator',
             'email' => 'admin@perpustakaan.com',
             'password' => Hash::make('password123'),
-            'nim_nis' => 'ADMIN001',
             'no_telepon' => '081234567890',
             'alamat' => 'Kantor Perpustakaan'
         ]);
@@ -69,7 +68,6 @@ class RolePermissionSeeder extends Seeder
             'name' => 'Petugas Perpustakaan',
             'email' => 'petugas@perpustakaan.com',
             'password' => Hash::make('password123'),
-            'nim_nis' => 'PTG001',
             'no_telepon' => '081234567891',
             'alamat' => 'Ruang Pelayanan'
         ]);
@@ -79,7 +77,6 @@ class RolePermissionSeeder extends Seeder
             'name' => 'Mahasiswa 1',
             'email' => 'mahasiswa@example.com',
             'password' => Hash::make('password123'),
-            'nim_nis' => '20230001',
             'no_telepon' => '081234567892',
             'alamat' => 'Jl. Kampus No. 1'
         ]);
