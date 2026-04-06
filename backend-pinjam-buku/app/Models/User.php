@@ -24,6 +24,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'nim_nis',
+        'no_telepon',
+        'alamat',
     ];
 
     /**
@@ -47,5 +50,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function peminjamans()
+    {
+        return $this->hasMany(Peminjaman::class);
     }
 }
