@@ -37,4 +37,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/peminjaman', [PeminjamanController::class, 'index']);
         Route::get('/dashboard-stats', [PeminjamanController::class, 'dashboardStats']);
     });
+
+    // Route test untuk cek permission
+Route::middleware(['auth:sanctum', 'check.permission:lihat_buku'])->get('/test-permission', function () {
+    return response()->json([
+        'success' => true,
+        'message' => 'Permission works!'
+    ]);
+});
 });

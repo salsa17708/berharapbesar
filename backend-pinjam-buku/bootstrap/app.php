@@ -18,9 +18,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         // Registrasi middleware alias
         $middleware->alias([
-            'check.role' => CheckRole::class,
-            'check.permission' => CheckPermission::class,
-            'cek.stok' => CekStokBuku::class,        ]);
+         // 'check.role' => CheckRole::class,
+         //  'check.permission' => CheckPermission::class,
+            'cek.stok' => CekStokBuku::class,        
+            ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
