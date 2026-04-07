@@ -10,21 +10,27 @@ class CheckPermission
 {
     public function handle(Request $request, Closure $next, $permission)
     {
+        if (!Auth::check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Silakan login terlebih dahulu.'
+            ], 401);
+        }
+         /** @var \App\Models\User $user */ 
         $user = Auth::user();
         
-        // ✅ SIMPLE & CLEAN
-        if (!$user || !$user->can($permission)) {
-            $permissions = method_exists($user, 'getAllPermissions')
-                ? $user->getAllPermissions()->pluck('name')->toArray()
-                : [];
-
-            return $request->expectsJson()
-                ? response()->json([
-                    'success' => false,
-                    'message' => "Permission required: {$permission}",
-                    'your_permissions' => $permissions,
-                ], 403)
-                : redirect()->back()->with('error', "No permission: {$permission}");
+        // Admin memiliki semua akses
+        if ($user->hasRole('admin')) {
+            return $next($request);
+        }
+        
+        if (!$user->can($permission)) {
+            return response()->json([
+                'success' => false,
+                'message' => "Akses ditolak. Anda tidak memiliki permission: {$permission}",
+                'required_permission' => $permission,
+                'your_permissions' => $user->getAllPermissions()->pluck('name')
+            ], 403);
         }
 
         return $next($request);
